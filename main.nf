@@ -378,7 +378,13 @@ def summary = [:]
 summary['Pipeline Name']  = 'nf-core/eager'
 summary['Pipeline Version'] = workflow.manifest.version
 summary['Run Name']     = custom_runName ?: workflow.runName
-summary['Reads']        = params.reads
+if (params.reads){
+    summary['Reads']        = params.reads
+} else if (params.readPaths){
+    summary['Reads']        = params.readPaths
+} else {
+    summary['Input BAM']        = params.bam
+}
 summary['Fasta Ref']    = params.fasta
 summary['BAM Index Type'] = (params.large_ref == "") ? 'BAI' : 'CSI'
 if(params.bwa_index) summary['BWA Index'] = params.bwa_index
